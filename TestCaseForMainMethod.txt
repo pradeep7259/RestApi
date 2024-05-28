@@ -1,0 +1,43 @@
+package com.printingHW.testcase;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import org.junit.jupiter.api.Test;
+import com.google.gson.Gson;
+
+public class TestCaseApiTesting {
+   @Test
+	void test() {
+	   try {
+			/* #First trial */
+		   
+			  String actual = TestCaseApi.sendRequestToAccountAPI("GET", "api/v1/home",
+			  ""); System.out.println("response Status code :" + actual.split("&")[0]);
+			  System.out.println("response :" + actual.split("&")[1]); String expected =
+			  "Welcome to Accounts SMS API";
+			  
+			  assertEquals(expected, actual.split("&")[1]);
+			 
+		   
+			  /* #Second trial */
+			  Map<String,String> map = new HashMap<>(); map.put("domainName","pearl");
+			  map.put("locationName", "5"); map.put("reportType", "trialBalance");
+			  map.put("startDate", "01-05-2024"); map.put("endDate", "31-05-2024");
+			  
+			  System.out.println("convert map to json object : "+ new Gson().toJson(map));
+			  
+				/* you need to be add dependency for Gson */
+			  
+			  String actualOne = TestCaseApi.sendRequestToAccountAPI("POST",
+			  "api/v1/accounts/get-report", new Gson().toJson(map));
+			  System.out.println("response One : "+ actualOne);
+			 
+			
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+	}
+}
